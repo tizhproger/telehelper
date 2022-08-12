@@ -7,7 +7,7 @@ This bot requires PostgreSQL database for storing notes and some config data. Mo
 Instructions:
 
 1) Deploy bot on heroku
-2) Get PostgreSQL credentials
+2) Get PostgreSQL credentials (https://dashboard.heroku.com/apps/your_app_name/resources)
 3) Connect to your DB using this credentials
 4) Open db_tables.txt document in this repo
 5) Copy and paste all creation commands
