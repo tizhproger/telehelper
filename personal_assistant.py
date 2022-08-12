@@ -38,18 +38,8 @@ client = TelegramClient(StringSession(session_key), api_id, api_hash).start()
 pgsql = DB(db_name=db_url.database, address=db_url.host, db_port=5432, login=db_url.username, password=db_url.password)
 
 async def Check_db(message):
-    if pgsql is not None:
-        cur = pgsql.cursor()
-        cur.execute("SELECT datname FROM pg_database;")
-        list_database = cur.fetchall()
-
-        if (db_url.database,) in list_database:
-            print("'{}' Database already exist".format(db_url.database))
-        else:
-            print("'{}' Database not exist.".format(db_url.database))
-            await message.reply('Database not exist, create it to use bot fully!')
-    else:
-        await message.reply('Database connection failed, check data!')
+    if not db_url:
+        await message.reply('Database not exist, create it to use bot fully!')
 
 
 squote = {}
