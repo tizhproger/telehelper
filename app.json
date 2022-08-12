@@ -4,8 +4,8 @@
   "repository": "https://github.com/tizhproger/telehelper",
   "keywords": ["telethon", "userbot", "python", "heroku"],
   "env": {
-    "MEDIA_CHAT": {
-      "description": "Chat name for storing media notes"
+    "MEDIA_CHANNEL": {
+      "description": "Private channel name for storing media notes"
     },
 	"API_ID": {
       "description": "Telegram application id"
