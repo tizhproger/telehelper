@@ -69,8 +69,10 @@ dotify = DotifyMod()
 typer = TyperMod()
 
 db_check = pgsql.getwords()
-if db_check:
+if db_check is not None:
     banwords = list(sum(db_check, ()))
+elif db_check is None:
+    db_check = False
 
 async def commands(message):
     global banwords, inst
