@@ -6,10 +6,11 @@ This bot requires PostgreSQL database for storing notes and some config data. Mo
 
 Instructions:
 
-1) Deploy bot on heroku
-2) Get PostgreSQL credentials (https://dashboard.heroku.com/apps/your_app_name/resources)
-3) Connect to your DB using this credentials
-4) Open db_tables.txt document in this repo
-5) Copy and paste all creation commands
-6) Create all necessary tables in DB
-7) Use bot and be happy :)
+1) Create Telegram app (https://core.telegram.org/api/obtaining_api_id)
+2) Deploy bot on heroku
+3) Get PostgreSQL credentials (https://dashboard.heroku.com/apps/your_app_name/resources)
+4) Connect to your DB using this credentials
+5) Open db_tables.txt document in this repo
+6) Copy and paste all creation commands
+7) Create all necessary tables in DB
+8) Use bot and be happy :)
