@@ -1,3 +1,4 @@
+[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/tizhproger/telehelper)
 # Telehelper
 Userbot based on Theleton with modified modules from FTG
 
