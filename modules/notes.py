@@ -5,7 +5,7 @@ from telethon.tl.types import Message
 from telethon.tl.custom import Message as CustomMessage
 
 logger = logging.getLogger(__name__)
-media_chat = os.environ.get('MEDIA_CHAT')
+media_chat = os.environ.get('MEDIA_CHANNEL')
 
 
 def register(cb):
