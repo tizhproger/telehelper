@@ -2,7 +2,7 @@
   "name": "Telehelper",
   "description": "Self deploy telethon based userbot",
   "repository": "https://github.com/tizhproger/telehelper",
-  "keywords": ["telethon", "userbot", "python", "heroku"]
+  "keywords": ["telethon", "userbot", "python", "heroku"],
   "env": {
     "MEDIA_CHAT": {
       "description": "Chat name for storing media notes"
@@ -16,7 +16,7 @@
 	"SESSION": {
       "description": "Variable used for storing session key, do not change!"
     }
-  }
+  },
   "addons": [
     {
       "plan": "heroku-postgresql",
