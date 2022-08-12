@@ -34,11 +34,6 @@ api_id = os.environ.get('API_ID')
 api_hash = os.environ.get('API_HASH')
 session_key = os.environ.get('SESSION')
 
-if session_key is None:
-    with TelegramClient(StringSession(), api_id, api_hash) as client:
-        session_key = client.session.save()
-        os.environ.update('SESSION', session_key)
-
 client = TelegramClient(StringSession(session_key), api_id, api_hash).start()
 pgsql = DB(db_name=db_url.database, address=db_url.host, db_port=5432, login=db_url.username, password=db_url.password)
 
