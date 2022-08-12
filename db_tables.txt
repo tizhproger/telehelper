@@ -1,0 +1,25 @@
+create table banwords(
+word text primary key
+);
+
+create table vault(
+name text primary key,
+msg_id integer not null
+);
+
+create table notes(
+name character(100) primary key,
+msg_id integer not null
+);
+
+create table allowed(
+id character(150) primary key
+);
+
+create table modes(
+chat_id text primary key,
+nopolitics boolean default false,
+mutepolitics boolean default false,
+autoban boolean default false,
+autowarn boolean default false
+);
