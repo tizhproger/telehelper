@@ -15,7 +15,7 @@
     },
 	"SESSION": {
       "description": "Variable used for storing session key, do not change!",
-      "required": False
+	  "required": false
     }
   },
   "addons": [
