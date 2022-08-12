@@ -44,11 +44,11 @@ async def Check_db():
         list_database = cur.fetchall()
 
         if (db_url.database,) in list_database:
-            print("'{}' Database already exist".format(database_name))
+            print("'{}' Database already exist".format(db_url.database))
         else:
-            print("'{}' Database not exist.".format(database_name))
+            print("'{}' Database not exist.".format(db_url.database))
             await client.send_message('me', 'Database not exist, create it to use bot fully!')
-     else:
+    else:
         await client.send_message('me', 'Database connection failed, check data!')
 
 
@@ -78,7 +78,7 @@ dmot = DemotivatorMod(client)
 dotify = DotifyMod()
 typer = TyperMod()
 
-db_check = psgql.getwords()
+db_check = pgsql.getwords()
 if db_check:
     banwords = list(sum(db_check, ()))
 else:
