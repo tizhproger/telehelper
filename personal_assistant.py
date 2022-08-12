@@ -638,7 +638,6 @@ async def commands(message):
 @client.on(events.NewMessage(outgoing=True))
 async def outgoing(event):
     msg = event.message
-    await Check_db(msg)
     if msg.is_reply:
         id = (await event.message.get_reply_message()).sender.id
         if msg.text.startswith('.add'):
