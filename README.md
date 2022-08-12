@@ -8,10 +8,12 @@ Instructions:
 
 1) Create Telegram app (https://core.telegram.org/api/obtaining_api_id)
 2) Create private channel and save its name
-3) Deploy bot on heroku via button
-4) Get PostgreSQL credentials (https://dashboard.heroku.com/apps/your_app_name/resources)
-5) Connect to your DB using this credentials
-6) Open db_tables.txt document in this repo
-7) Copy and paste all creation commands
-8) Create all necessary tables in DB
-9) Use bot and be happy :)
+3) Obtain session string with script (copy to your drive): (https://colab.research.google.com/drive/1v8KpiYpui3XuGretQj5DX7zugh4GufZp?usp=sharing)
+4) Deploy bot on heroku via button
+5) Get PostgreSQL credentials (https://dashboard.heroku.com/apps/your_app_name/resources)
+6) Connect to your DB using this credentials
+7) Open db_tables.txt document in this repo
+8) Copy and paste all creation commands
+9) Create all necessary tables in DB
+10) Run your app on heroku (https://dashboard.heroku.com/apps/your_app_name/resources)
+11) Use bot and be happy :)
