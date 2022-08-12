@@ -37,7 +37,7 @@ session_key = os.environ.get('SESSION')
 client = TelegramClient(StringSession(session_key), api_id, api_hash).start()
 pgsql = DB(db_name=db_url.database, address=db_url.host, db_port=5432, login=db_url.username, password=db_url.password)
 
-async def Check_db():
+async def Check_db(message):
     if pgsql is not None:
         cur = pgsql.cursor()
         cur.execute("SELECT datname FROM pg_database;")
@@ -47,9 +47,9 @@ async def Check_db():
             print("'{}' Database already exist".format(db_url.database))
         else:
             print("'{}' Database not exist.".format(db_url.database))
-            await client.send_message('me', 'Database not exist, create it to use bot fully!')
+            await message.reply('Database not exist, create it to use bot fully!')
     else:
-        await client.send_message('me', 'Database connection failed, check data!')
+        await message.reply('Database connection failed, check data!')
 
 
 squote = {}
@@ -654,7 +654,7 @@ async def commands(message):
 @client.on(events.NewMessage(outgoing=True))
 async def outgoing(event):
     msg = event.message
-    await Check_db()
+    Check_db()
     if msg.is_reply:
         id = (await event.message.get_reply_message()).sender.id
         if msg.text.startswith('.add'):
