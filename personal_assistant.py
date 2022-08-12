@@ -37,6 +37,21 @@ session_key = os.environ.get('SESSION')
 client = TelegramClient(StringSession(session_key), api_id, api_hash).start()
 pgsql = DB(db_name=db_url.database, address=db_url.host, db_port=5432, login=db_url.username, password=db_url.password)
 
+async def Check_db():
+    if pgsql is not None:
+        cur = pgsql.cursor()
+        cur.execute("SELECT datname FROM pg_database;")
+        list_database = cur.fetchall()
+
+        if (db_url.database,) in list_database:
+            print("'{}' Database already exist".format(database_name))
+        else:
+            print("'{}' Database not exist.".format(database_name))
+            await client.send_message('me', 'Database not exist, create it to use bot fully!')
+     else:
+        await client.send_message('me', 'Database connection failed, check data!')
+
+
 squote = {}
 
 animate = Animations(client)
@@ -63,7 +78,11 @@ dmot = DemotivatorMod(client)
 dotify = DotifyMod()
 typer = TyperMod()
 
-banwords = list(sum(pgsql.getwords(), ()))
+db_check = psgql.getwords()
+if db_check:
+    banwords = list(sum(db_check, ()))
+else:
+    banwords = []
 
 async def commands(message):
     global banwords, inst
@@ -635,7 +654,7 @@ async def commands(message):
 @client.on(events.NewMessage(outgoing=True))
 async def outgoing(event):
     msg = event.message
-
+    Check_db()
     if msg.is_reply:
         id = (await event.message.get_reply_message()).sender.id
         if msg.text.startswith('.add'):
