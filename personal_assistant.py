@@ -37,10 +37,6 @@ session_key = os.environ.get('SESSION')
 client = TelegramClient(StringSession(session_key), api_id, api_hash).start()
 pgsql = DB(db_name=db_url.database, address=db_url.host, db_port=5432, login=db_url.username, password=db_url.password)
 
-async def Check_db(message):
-    if not db_url:
-        await message.reply('Something wrong with Database, check it...')
-
 
 squote = {}
 
@@ -68,11 +64,9 @@ dmot = DemotivatorMod(client)
 dotify = DotifyMod()
 typer = TyperMod()
 
-db_check = pgsql.getwords()
-if db_check is not None:
-    banwords = list(sum(db_check, ()))
-elif db_check is None:
-    db_check = False
+
+banwords = list(sum(pgsql.getwords(), ()))
+
 
 async def commands(message):
     global banwords, inst
@@ -645,84 +639,82 @@ async def commands(message):
 async def outgoing(event):
     msg = event.message
     await Check_db(msg)
-    if db_check:
-        if msg.is_reply:
-            id = (await event.message.get_reply_message()).sender.id
-            if msg.text.startswith('.add'):
-                if pgsql.allowed(id):
-                    await msg.edit('Доступ уже открыт')
-                elif pgsql.add_user(id):
-                    await msg.edit('Доступ: `открыт`')
-                else:
-                    await msg.edit('Что-то не так...')
-                return
-
-            if msg.text.startswith('.del'):
-                if not pgsql.allowed(id):
-                    await msg.edit('Доступа нет')
-                elif pgsql.del_user(id):
-                    await msg.edit('Доступ: `закрыт`')
-                else:
-                    await msg.edit('Что-то не так...')
-                return
-        
-        if msg.text.startswith('.reveal'):
-            await note.notecmd(msg, 'Vault')
-            return
-        
-        if msg.text.startswith('.remove'):
-            await note.delnotecmd(msg, 'Vault')
-            return
-        
-        if msg.text.startswith('.vault'):
-            await note.savecmd(msg, 'Vault')
-            await msg.delete()
-            return
-        
-        if msg.text.startswith('.clean'):
-            await note.delallnotescmd(msg, 'Vault')
-            return
-        
-        if msg.text.startswith('.stored'):
-            await note.notescmd(msg, 'Vault')
+    if msg.is_reply:
+        id = (await event.message.get_reply_message()).sender.id
+        if msg.text.startswith('.add'):
+            if pgsql.allowed(id):
+                await msg.edit('Доступ уже открыт')
+            elif pgsql.add_user(id):
+                await msg.edit('Доступ: `открыт`')
+            else:
+                await msg.edit('Что-то не так...')
             return
 
-        await commands(msg)
+        if msg.text.startswith('.del'):
+            if not pgsql.allowed(id):
+                await msg.edit('Доступа нет')
+            elif pgsql.del_user(id):
+                await msg.edit('Доступ: `закрыт`')
+            else:
+                await msg.edit('Что-то не так...')
+            return
+    
+    if msg.text.startswith('.reveal'):
+        await note.notecmd(msg, 'Vault')
+        return
+    
+    if msg.text.startswith('.remove'):
+        await note.delnotecmd(msg, 'Vault')
+        return
+    
+    if msg.text.startswith('.vault'):
+        await note.savecmd(msg, 'Vault')
+        await msg.delete()
+        return
+    
+    if msg.text.startswith('.clean'):
+        await note.delallnotescmd(msg, 'Vault')
+        return
+    
+    if msg.text.startswith('.stored'):
+        await note.notescmd(msg, 'Vault')
+        return
+
+    await commands(msg)
 
 
 @client.on(events.NewMessage(incoming=True))
 async def incoming(event):
-    if db_check:
-        if pgsql.checkchat(event.message.chat_id):
-            if pgsql.checkmode(event.message.chat_id, 'nopolitics'):
-                for el in banwords:
-                    if el in event.message.text.lower():
-                        if pgsql.checkmode(event.message.chat_id, 'autoban'):
-                            await event.message.reply('/ban')
-                            await event.message.delete()
+    if pgsql.checkchat(event.message.chat_id):
+        if pgsql.checkmode(event.message.chat_id, 'nopolitics'):
+            for el in banwords:
+                if el in event.message.text.lower():
+                    if pgsql.checkmode(event.message.chat_id, 'autoban'):
+                        await event.message.reply('/ban')
+                        await event.message.delete()
 
-                        elif pgsql.checkmode(event.message.chat_id, 'autowarn'):
-                            await event.message.reply('/warn')
-                            await event.message.delete()
+                    elif pgsql.checkmode(event.message.chat_id, 'autowarn'):
+                        await event.message.reply('/warn')
+                        await event.message.delete()
 
-                        elif pgsql.checkmode(event.message.chat_id, 'mutepolitics'):
-                            await event.message.reply('/mute 15m Политота')
-                            await event.message.delete()
-                        else:
-                            await event.message.delete()
-                        
-        if event.message.text.startswith('.'):
-            if pgsql.allowed(event.message.sender_id):
-                if event.message.is_reply:
-                    reply_msg = await event.message.get_reply_message()
-                    msg = await client.send_message(event.message.chat_id, message=event.message.text, reply_to=reply_msg)
-                else:
-                    msg = await client.send_message(event.message.chat_id, message=event.message.text, reply_to=event.message)
+                    elif pgsql.checkmode(event.message.chat_id, 'mutepolitics'):
+                        await event.message.reply('/mute 15m Политота')
+                        await event.message.delete()
+                    else:
+                        await event.message.delete()
                     
-                reply = await event.client.get_messages(event.chat, ids=msg.id)
-                res = await commands(reply)
-                if not res:
-                    await reply.delete()
-                    await event.message.reply('**Команда не найдена...**')
+    if event.message.text.startswith('.'):
+        if pgsql.allowed(event.message.sender_id):
+            if event.message.is_reply:
+                reply_msg = await event.message.get_reply_message()
+                msg = await client.send_message(event.message.chat_id, message=event.message.text, reply_to=reply_msg)
+            else:
+                msg = await client.send_message(event.message.chat_id, message=event.message.text, reply_to=event.message)
+                
+            reply = await event.client.get_messages(event.chat, ids=msg.id)
+            res = await commands(reply)
+            if not res:
+                await reply.delete()
+                await event.message.reply('**Команда не найдена...**')
 
 client.run_until_disconnected()
