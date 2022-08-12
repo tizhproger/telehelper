@@ -14,8 +14,7 @@
       "description": "Telegram application hash"
     },
 	"SESSION": {
-      "description": "Variable used for storing session key, do not change!",
-	  "required": false
+      "description": "Variable used for storing session key, do not change!"
     }
   },
   "addons": [
