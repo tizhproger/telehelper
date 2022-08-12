@@ -39,7 +39,7 @@ pgsql = DB(db_name=db_url.database, address=db_url.host, db_port=5432, login=db_
 
 async def Check_db(message):
     if not db_url:
-        await message.reply('Database not exist, create it to use bot fully!')
+        await message.reply('Something wrong with Database, check it...')
 
 
 squote = {}
@@ -71,8 +71,6 @@ typer = TyperMod()
 db_check = pgsql.getwords()
 if db_check:
     banwords = list(sum(db_check, ()))
-else:
-    banwords = []
 
 async def commands(message):
     global banwords, inst
