@@ -1,3 +1,9 @@
+This bot is no more used. Fresh, user friendly and modern bot can be found on: https://gitlab.com/tizhproger/dynamic-personal-telegram-bot
+
+Code here is outdated and not optimized, leading to a lot of self coding, hard coded data and absence of flexibility.
+
+
+
 [![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/tizhproger/telehelper)
 # Telehelper
 Userbot based on Theleton with modified modules from FTG
